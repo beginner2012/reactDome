@@ -15,6 +15,22 @@ class TodoList extends Component{//TodoList组件继承了React里面的Componen
        })
     }   
 
+    handleBtnClick(){
+        this.setState({
+            list: [...this.state.list, this.state.inputValue],
+            inputValue:''
+        })
+    }
+
+    handleDelete(index){
+        console.log(index)
+        const list = [...this.state.list];
+        list.splice(index,1)
+        this.setState({
+            list : list
+        })
+    }
+
     render(){
         return(
             <Fragment>
@@ -23,11 +39,14 @@ class TodoList extends Component{//TodoList组件继承了React里面的Componen
                      value={this.state.inputValue}   //jsx里面想使用js表过式记的要用花括号包裹
                      onChange={this.handleIputChange.bind(this)}  //事件绑定的时候记的用bind(this)对作用域发生改变
                     />
-                    <button>提交</button> 
+                    <button onClick={this.handleBtnClick.bind(this)}>提交</button> 
                 </div>
                <ul>
-                   <li>学习学习</li>
-                   <li>加油加油</li>
+                   {
+                       this.state.list.map((item,index) => {  //map方法循环List,接收回调两个参数，一个item具体每一项的内容，index下标
+                           return <li key={index}  onClick={this.handleDelete.bind(this,index)}>{item}</li>  //返回每一项的内容
+                       })
+                   }
                </ul>
            </Fragment>
         )
